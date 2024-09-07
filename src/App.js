@@ -28,7 +28,7 @@ const App = () => {
   return (
     <Router>
       <div className="h-screen flex flex-col bg-gray-100">
-        <Header />
+        {/* <Header /> */}
         {/* <MenuComponent /> */}
 
         <main className="flex-1 overflow-hidden flex flex-col">
