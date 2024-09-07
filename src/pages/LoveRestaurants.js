@@ -31,7 +31,7 @@ const LoveRestaurants = () => {
 
   useEffect(() => {
     async function fetchRestaurants() {
-      const url = "http://localhost:5001/api/loveRestaurant";
+      const url = "https://hack-bdend.vercel.app/api/loveRestaurant";
       try {
         const response = await fetch(url);
         if (!response.ok) {
