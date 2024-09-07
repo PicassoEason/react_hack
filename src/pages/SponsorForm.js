@@ -8,7 +8,7 @@ const SponsorForm = () => {
   const watchSponsor = watch("sponsor");
 
   useEffect(() => {
-    fetch('http://localhost:5001/api/sponsor')
+    fetch('https://hack-bdend.vercel.app/api/sponsor')
       .then(response => response.json())
       .then(data => setSponsors(data))
       .catch(error => console.error('Error fetching sponsors:', error));
