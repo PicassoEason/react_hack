@@ -31,7 +31,7 @@ const NearbyStores = ({ setSelectedStore }) => {
 
   useEffect(() => {
     async function fetchStores() {
-      const url = "http://localhost:5001/food";
+      const url = "https://hack-bdend.vercel.app/food";
       try {
         const response = await fetch(url, {
           method: 'GET',
