@@ -21,7 +21,10 @@ const App = () => {
 
   const HomePage = () => (
     <>
+      <div className="bg-white shadow-md">
       <ServiceButtons />
+      </div>
+      
       <NearbyStores setSelectedStore={setSelectedStore} />
     </>
   );

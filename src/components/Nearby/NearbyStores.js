@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import StoreCard from '../StoreCard';
 import MapComponent from '../Map';
+import ReactLoading from 'react-loading';
 
 const NearbyStores = ({ setSelectedStore }) => {
   const [stores, setStores] = useState([]);
@@ -127,11 +128,17 @@ const NearbyStores = ({ setSelectedStore }) => {
     }
   }, [userLocation, stores]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <ReactLoading type="spinningBubbles" color="#4299E1" height={50} width={50} />
+      </div>
+    );
+  }
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="bg-white p-4">
+    <div className="bg-white p-4 ">
       <h2 className="text-lg font-bold mb-2">附近的愛心店家</h2>
       <MapComponent userLocation={userLocation} nearbyStores={nearbyStores} />
       <div className="flex flex-wrap gap-4 mt-4">

@@ -35,9 +35,12 @@ const DisabilityInstitutionSpaces = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
-      <main className="flex-1 overflow-auto p-4">
+      
+      <div className="bg-white shadow-md">
+        <ServiceButtons />
+      </div>
+      <main className="flex-1 overflow-auto p-1">
         <div className="bg-white shadow rounded-lg p-6">
-          <ServiceButtons />
           <h2 className="text-2xl font-bold mb-4">身障機構空位一覽</h2>
           <div className="space-y-4">
             {spaces.map((space, index) => (
