@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import StoreCard from '../components/StoreCard';
 import MapComponent from '../components/Map';
-
+import ServiceButtons from '../components/ServiceButtons';
 const LoveRestaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -75,6 +75,7 @@ const LoveRestaurants = () => {
 
   return (
     <div className="bg-white p-4">
+      {<ServiceButtons />}
       <h2 className="text-lg font-bold mb-2">愛心餐廳列表</h2>
       <MapComponent userLocation={userLocation} nearbyStores={restaurants} />
       <div className="flex flex-wrap gap-4 mt-4">

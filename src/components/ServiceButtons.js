@@ -7,9 +7,11 @@ const ServiceButtons = () => {
 
   return (
     <div className="flex space-x-2 p-4">
-      <button className="flex-1 bg-blue-100 text-blue-600 py-2 rounded-full flex items-center justify-center"  >
+      <button className="flex-1 bg-blue-100 text-blue-600 py-2 rounded-full flex items-center justify-center"  
+        onClick={() => navigate('/')}
+      >
         <HeartHandshake size={16} className="mr-2" />
-        社會救助中心
+        附近友善店家
       </button>
       <button 
         className="flex-1 bg-red-100 text-red-600 py-2 rounded-full flex items-center justify-center"

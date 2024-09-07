@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import Header from '../components/Header';
-
+import ServiceButtons from '../components/ServiceButtons';
 const DisabilityInstitutionSpaces = () => {
   const [spaces, setSpaces] = useState([]);
 
@@ -16,6 +16,7 @@ const DisabilityInstitutionSpaces = () => {
       {/* <Header /> */}
       <main className="flex-1 overflow-auto p-4">
         <div className="bg-white shadow rounded-lg p-6">
+          {<ServiceButtons />}
           <h2 className="text-2xl font-bold mb-4">身障機構空位一覽</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full">
