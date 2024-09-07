@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Home, Map, Heart, Info, Settings, Phone } from 'lucide-react';    
+import { Menu, X, Home, Map, Heart, Info, Settings, Phone,Beef } from 'lucide-react';    
 
 const MenuComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,12 +7,12 @@ const MenuComponent = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const menuItems = [
+    // { icon: <Home size={24} />, label: '首頁', link: '/' },
     { icon: <Home size={24} />, label: '首頁', link: '/' },
-    { icon: <Map size={24} />, label: '服務地圖', link: '/map' },
-    { icon: <Heart size={24} />, label: '我的收藏', link: '/favorites' },
+    { icon: <Map size={24} />, label: '想要個家', link: '/home' },
+    { icon: <Beef size={24} />, label: '肚子餓了', link: '/food' },
+    { icon: <Phone size={24} />, label: '需要支援', link: '/assist' },
     { icon: <Info size={24} />, label: '使用指南', link: '/guide' },
-    { icon: <Phone size={24} />, label: '緊急聯絡', link: '/emergency' },
-    { icon: <Settings size={24} />, label: '設置', link: '/settings' },
   ];
 
   return (
