@@ -17,6 +17,7 @@ const MapComponent = ({ userLocation, nearbyStores }) => {
               key={index}
               position={{ lat: parseFloat(store.LAT), lng: parseFloat(store.LON) }}
               title={store.ORG_NAME}
+              
             />
           ))}
         </Map>
