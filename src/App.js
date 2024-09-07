@@ -4,11 +4,11 @@ import Header from './components/Header';
 import ServiceButtons from './components/ServiceButtons';
 import NearbyStores from './components/NearbyStores';
 import StoreModal from './components/StoreModal';
-import MenuComponent from './components/menu';
-import WantHome from './pages/want_home';
-import Food from './pages/food';
-import Assist from './pages/assist';
-import Guide from './pages/info';
+// import MenuComponent from './components/menu';
+// import WantHome from './pages/want_home';
+// import Food from './pages/food';
+// import Assist from './pages/assist';
+// import Guide from './pages/info';
 
 const App = () => {
   const [selectedStore, setSelectedStore] = useState(null);
@@ -31,10 +31,7 @@ const App = () => {
         <main className="flex-1 overflow-hidden flex flex-col">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/want-home" element={<WantHome />} />
-            <Route path="/food" element={<Food />} />
-            <Route path="/assist" element={<Assist />} />
-            <Route path="/guide" element={<Guide />} />
+            
           </Routes>
         </main>
 

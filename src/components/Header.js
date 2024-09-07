@@ -1,14 +1,14 @@
 import React from 'react';
 import { Search, Filter, Menu, User } from 'lucide-react';
 import FilterMenu from './filtermenu';
-import MenuComponent from './menu';
+// import MenuComponent from './menu';
 
 const Header = () => (
   <header className="bg-green-600 text-white p-4">
-    <div className="flex justify-between items-center mb-4">
-      <MenuComponent />
-      <h1 className="text-xl font-bold">台北社會救助服務通</h1>
-      <User size={24} />
+    <div className="text-center mb-4">
+      {/* <MenuComponent /> */}
+      <h1 className="text-xl font-bold ">台北社會救助服務通</h1>
+      {/* <User size={24} /> */}
     </div>
     <div className="relative">
       {/* <input
