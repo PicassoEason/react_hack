@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Menu, X, Home, Map, Heart, Info, Settings, Phone,Beef } from 'lucide-react';    
+import { Link } from 'react-router-dom';
+import { Menu, X, Home, Map, Heart, Info, Settings, Phone, Beef } from 'lucide-react';
 
 const MenuComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,9 +8,8 @@ const MenuComponent = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const menuItems = [
-    // { icon: <Home size={24} />, label: '首頁', link: '/' },
     { icon: <Home size={24} />, label: '首頁', link: '/' },
-    { icon: <Map size={24} />, label: '想要個家', link: '/want_home' },
+    { icon: <Map size={24} />, label: '想要個家', link: '/want-home' },
     { icon: <Beef size={24} />, label: '肚子餓了', link: '/food' },
     { icon: <Phone size={24} />, label: '需要支援', link: '/assist' },
     { icon: <Info size={24} />, label: '使用指南', link: '/guide' },
@@ -29,10 +29,14 @@ const MenuComponent = () => {
               <ul className="space-y-4">
                 {menuItems.map((item, index) => (
                   <li key={index}>
-                    <a href={item.link} className="flex items-center space-x-3 text-gray-700 hover:text-green-500">
+                    <Link
+                      to={item.link}
+                      className="flex items-center space-x-3 text-gray-700 hover:text-green-500"
+                      onClick={toggleMenu}
+                    >
                       {item.icon}
                       <span>{item.label}</span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
