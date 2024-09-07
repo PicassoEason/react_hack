@@ -5,7 +5,7 @@ const DisabilityInstitutionSpaces = () => {
   const [spaces, setSpaces] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5001/api/emptySpace')
+    fetch('https://hack-bdend.vercel.app/api/emptySpace')
       .then(response => response.json())
       .then(data => setSpaces(data))
       .catch(error => console.error('Error fetching data:', error));
