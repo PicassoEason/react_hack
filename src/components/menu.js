@@ -9,7 +9,7 @@ const MenuComponent = () => {
   const menuItems = [
     // { icon: <Home size={24} />, label: '首頁', link: '/' },
     { icon: <Home size={24} />, label: '首頁', link: '/' },
-    { icon: <Map size={24} />, label: '想要個家', link: '/home' },
+    { icon: <Map size={24} />, label: '想要個家', link: '/want_home' },
     { icon: <Beef size={24} />, label: '肚子餓了', link: '/food' },
     { icon: <Phone size={24} />, label: '需要支援', link: '/assist' },
     { icon: <Info size={24} />, label: '使用指南', link: '/guide' },
