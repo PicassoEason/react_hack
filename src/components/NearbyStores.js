@@ -101,7 +101,7 @@ const NearbyStores = ({ setSelectedStore }) => {
 
   return (
     <div className="bg-white p-4">
-      <h2 className="text-lg font-bold mb-2">附近的店家</h2>
+      <h2 className="text-lg font-bold mb-2">附近的愛心店家</h2>
       <MapComponent userLocation={userLocation} nearbyStores={nearbyStores} />
       <div className="flex flex-wrap gap-4 mt-4">
         {nearbyStores.map((store, index) => (

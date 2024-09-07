@@ -15,7 +15,7 @@ const App = () => {
       <Header />
 
       <main className="flex-1 overflow-hidden flex flex-col">
-        <ServiceButtons />
+        {/* <ServiceButtons /> */}
         
         <NearbyStores setSelectedStore={setSelectedStore} />
       </main>
