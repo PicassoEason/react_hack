@@ -22,7 +22,7 @@ const StoreModal = ({ store, onClose }) => {
         <div className="p-4">
           <p className="text-gray-600 mb-2">{store.address}</p>
           <p className={`font-bold ${store.isOpen ? 'text-green-500' : 'text-red-500'}`}>
-            {store.isOpen ? '營業中' : '休息中'}
+            {store.isOpen ? '營業中' : '營業中'}
           </p>
           <p className="text-gray-600 mb-4">{store.hours}</p>
           <div className="flex space-x-2">
