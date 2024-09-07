@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import ServiceButtons from './components/ServiceButtons';
-import NearbyStores from './components/NearbyStores';
+import NearbyStores from './components/Nearby/NearbyStores';
 import StoreModal from './components/StoreModal';
 // import MenuComponent from './components/menu';
 // import WantHome from './pages/want_home';

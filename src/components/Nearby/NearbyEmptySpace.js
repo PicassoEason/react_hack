@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import StoreCard from './StoreCard';
-import MapComponent from './Map';
+import StoreCard from '../StoreCard';
+import MapComponent from '../Map';
 
 const NearbyStores = ({ setSelectedStore }) => {
   const [stores, setStores] = useState([]);
