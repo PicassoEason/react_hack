@@ -4,6 +4,8 @@ import Header from './components/Header';
 import ServiceButtons from './components/ServiceButtons';
 import NearbyStores from './components/Nearby/NearbyStores';
 import StoreModal from './components/StoreModal';
+import DisabilityInstitutionSpaces from './pages/DisabilityInstitutionSpaces';
+
 // import MenuComponent from './components/menu';
 // import WantHome from './pages/want_home';
 // import Food from './pages/food';
@@ -31,7 +33,7 @@ const App = () => {
         <main className="flex-1 overflow-hidden flex flex-col">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            
+            <Route path="/disability-spaces" element={<DisabilityInstitutionSpaces />} />
           </Routes>
         </main>
 
