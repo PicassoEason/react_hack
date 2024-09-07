@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from './components/Header';
 import ServiceButtons from './components/ServiceButtons';
-import Map from './components/Map';
+import MapComponent from './components/Map';
 import NearbyStores from './components/NearbyStores';
 import StoreModal from './components/StoreModal';
 
@@ -16,7 +16,7 @@ const App = () => {
 
       <main className="flex-1 overflow-hidden flex flex-col">
         <ServiceButtons />
-        <Map />
+        <MapComponent />
         <NearbyStores setSelectedStore={setSelectedStore} />
       </main>
 
