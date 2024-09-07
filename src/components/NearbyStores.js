@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import StoreCard from './StoreCard';
+import MapComponent from './Map';
 
 const NearbyStores = ({ setSelectedStore }) => {
   const [stores, setStores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
+  const [nearbyStores, setNearbyStores] = useState([]);
 
   useEffect(() => {
     // Get user's current location
@@ -56,6 +58,25 @@ const NearbyStores = ({ setSelectedStore }) => {
     }
   }, [userLocation]);
 
+  useEffect(() => {
+    if (userLocation && stores.length > 0) {
+      const filtered = stores
+        .map(store => ({
+          ...store,
+          distance: calculateDistance(
+            userLocation.latitude,
+            userLocation.longitude,
+            store.LAT,
+            store.LON
+          )
+        }))
+        .filter(store => store.distance <= 3)
+        .sort((a, b) => a.distance - b.distance);
+      
+      setNearbyStores(filtered);
+    }
+  }, [userLocation, stores]);
+
   // Function to calculate distance between two points
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371; // Radius of the Earth in km
@@ -78,24 +99,11 @@ const NearbyStores = ({ setSelectedStore }) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  // Filter stores within 3km and sort by distance
-  const nearbyStores = stores
-    .map(store => ({
-      ...store,
-      distance: calculateDistance(
-        userLocation.latitude,
-        userLocation.longitude,
-        store.LAT,
-        store.LON
-      )
-    }))
-    .filter(store => store.distance <= 3) // Only stores within 3km
-    .sort((a, b) => a.distance - b.distance);
-
   return (
     <div className="bg-white p-4">
       <h2 className="text-lg font-bold mb-2">附近的店家</h2>
-      <div className="flex flex-wrap gap-4">
+      <MapComponent userLocation={userLocation} nearbyStores={nearbyStores} />
+      <div className="flex flex-wrap gap-4 mt-4">
         {nearbyStores.map((store, index) => (
           <StoreCard 
             key={index}
