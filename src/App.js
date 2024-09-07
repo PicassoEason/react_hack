@@ -7,6 +7,7 @@ import StoreModal from './components/StoreModal';
 import DisabilityInstitutionSpaces from './pages/DisabilityInstitutionSpaces';
 import LoveRestaurants from './pages/LoveRestaurants'; // 新增這行
 import SponsorForm from './pages/SponsorForm'; // 新增這行
+import MyFavorites from './pages/MyFavorites';
 // import MenuComponent from './components/menu';
 // import WantHome from './pages/want_home';
 // import Food from './pages/food';
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="/disability-spaces" element={<DisabilityInstitutionSpaces />} />
             <Route path="/love-restaurants" element={<LoveRestaurants />} /> {/* 新增這行 */}
             <Route path="/sponsor-Form" element={<SponsorForm />} /> {/* 新增這行 */}
+            <Route path="/favorites" element={<MyFavorites />} /> {/* 新增這行 */}
           </Routes>
         </main>
 

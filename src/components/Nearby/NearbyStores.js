@@ -8,9 +8,54 @@ const NearbyStores = ({ setSelectedStore }) => {
   const [error, setError] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [nearbyStores, setNearbyStores] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+
+  // 移除重複數據並為每個項目添加唯一標識符
+  const removeDuplicates = (data) => {
+    const seen = new Set();
+    return data.filter((item, index) => {
+      const key = `${item.ORG_NAME}-${item.ADDRESS}`;
+      if (seen.has(key)) {
+        return false;
+      }
+      seen.add(key);
+      // 添加一個唯一標識符
+      item.uniqueId = `${key}-${index}`;
+      return true;
+    });
+  };
+
+  // 計算兩點之間的距離
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // 地球半徑（公里）
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c; // 返回距離（公里）
+  };
+
+  const startNavigation = (storeLat, storeLon) => {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${storeLat},${storeLon}`;
+    window.open(url, '_blank');
+  };
+
+  const handleFavoriteToggle = (store) => {
+    let updatedFavorites;
+    if (favorites.some(f => f.uniqueId === store.uniqueId)) {
+      updatedFavorites = favorites.filter(f => f.uniqueId !== store.uniqueId);
+    } else {
+      updatedFavorites = [...favorites, store];
+    }
+    setFavorites(updatedFavorites);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+  };
 
   useEffect(() => {
-    // Get user's current location
+    // 獲取用戶位置
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -27,6 +72,10 @@ const NearbyStores = ({ setSelectedStore }) => {
     } else {
       setError("Geolocation is not supported by your browser.");
     }
+
+    // 從 localStorage 加載收藏
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    setFavorites(storedFavorites);
   }, []);
 
   useEffect(() => {
@@ -44,7 +93,8 @@ const NearbyStores = ({ setSelectedStore }) => {
         }
 
         const json = await response.json();
-        setStores(json || []);
+        const uniqueStores = removeDuplicates(json || []);
+        setStores(uniqueStores);
         setLoading(false);
       } catch (error) {
         console.error('Fetching error:', error);
@@ -77,25 +127,6 @@ const NearbyStores = ({ setSelectedStore }) => {
     }
   }, [userLocation, stores]);
 
-  // Function to calculate distance between two points
-  const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371; // Radius of the Earth in km
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-    const a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
-      Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c; // Distance in km
-  };
-
-  // Function to open Google Maps for navigation
-  const startNavigation = (storeLat, storeLon) => {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${storeLat},${storeLon}`;
-    window.open(url, '_blank');
-  };
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -104,11 +135,12 @@ const NearbyStores = ({ setSelectedStore }) => {
       <h2 className="text-lg font-bold mb-2">附近的愛心店家</h2>
       <MapComponent userLocation={userLocation} nearbyStores={nearbyStores} />
       <div className="flex flex-wrap gap-4 mt-4">
-        {nearbyStores.map((store, index) => (
+        {nearbyStores.map((store) => (
           <StoreCard 
-            key={index}
+            key={store.uniqueId}
             name={store.ORG_NAME}
             distance={`${store.distance.toFixed(2)} km`}
+            isFavorite={favorites.some(f => f.uniqueId === store.uniqueId)}
             onClick={() => setSelectedStore({
               name: store.ORG_NAME,
               address: store.ADDRESS,
@@ -118,6 +150,7 @@ const NearbyStores = ({ setSelectedStore }) => {
               longitude: store.LON
             })}
             onNavigate={() => startNavigation(store.LAT, store.LON)}
+            onFavoriteToggle={() => handleFavoriteToggle(store)}
           />
         ))}
       </div>
