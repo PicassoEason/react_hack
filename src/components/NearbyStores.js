@@ -78,7 +78,7 @@ const NearbyStores = ({ setSelectedStore }) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  // Filter stores within 5km and sort by distance
+  // Filter stores within 3km and sort by distance
   const nearbyStores = stores
     .map(store => ({
       ...store,
@@ -89,7 +89,7 @@ const NearbyStores = ({ setSelectedStore }) => {
         store.LON
       )
     }))
-    .filter(store => store.distance <= 5) // Only stores within 5km
+    .filter(store => store.distance <= 3) // Only stores within 3km
     .sort((a, b) => a.distance - b.distance);
 
   return (
