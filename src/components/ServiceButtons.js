@@ -11,7 +11,10 @@ const ServiceButtons = () => {
         <HeartHandshake size={16} className="mr-2" />
         社會救助中心
       </button>
-      <button className="flex-1 bg-red-100 text-red-600 py-2 rounded-full flex items-center justify-center">
+      <button 
+        className="flex-1 bg-red-100 text-red-600 py-2 rounded-full flex items-center justify-center"
+        onClick={() => navigate('/love-restaurants')} // 更新這行
+      >
         <Cookie size={16} className="mr-2" />
         愛心餐廳
       </button>
