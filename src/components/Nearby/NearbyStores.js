@@ -50,7 +50,18 @@ const NearbyStores = ({ setSelectedStore }) => {
     if (favorites.some(f => f.uniqueId === store.uniqueId)) {
       updatedFavorites = favorites.filter(f => f.uniqueId !== store.uniqueId);
     } else {
-      updatedFavorites = [...favorites, store];
+      // 在添加收藏時，保存完整信息
+      const favoriteStore = {
+        uniqueId: store.uniqueId,
+        ORG_NAME: store.名稱,
+        ADDRESS: store.地址,
+        LAT: store.Latitude,
+        LON: store.Longitude,
+        distance: store.distance,
+        電話: store.電話,
+        無障礙友善說明: store.無障礙友善說明
+      };
+      updatedFavorites = [...favorites, favoriteStore];
     }
     setFavorites(updatedFavorites);
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
@@ -163,7 +174,6 @@ const NearbyStores = ({ setSelectedStore }) => {
 
   return (
     <div className="bg-white p-4 ">
-      {/* <h2 className="text-lg font-bold mb-2">附近的友善店家</h2> */}
       <MapComponent 
         userLocation={userLocation} 
         nearbyStores={nearbyStores.map(store => ({
@@ -181,7 +191,7 @@ const NearbyStores = ({ setSelectedStore }) => {
           <StoreCard 
             key={store.uniqueId}
             name={store.名稱}
-            distance={`${store.distance.toFixed(2)} km`}
+            distance={`${store.distance.toFixed(2)} km`} // Only show distance
             isFavorite={favorites.some(f => f.uniqueId === store.uniqueId)}
             isMarked={markedStores.some(m => m.uniqueId === store.uniqueId)}
             onClick={() => setSelectedStore({
