@@ -38,7 +38,7 @@ const MyFavorites = () => {
       <div className="flex-grow overflow-y-auto p-4">
         <div className="bg-white shadow rounded-lg p-6">
           <h2 className="text-2xl font-bold mb-4">我的收藏</h2>
-          <div className="flex flex-wrap gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {favorites.map((store) => (
               <StoreCard
                 key={store.ORG_NAME} // 使用組織名稱作為唯一 key

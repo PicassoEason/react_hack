@@ -141,7 +141,7 @@ const NearbyStores = ({ setSelectedStore }) => {
     <div className="bg-white p-4 ">
       <h2 className="text-lg font-bold mb-2">附近的愛心店家</h2>
       <MapComponent userLocation={userLocation} nearbyStores={nearbyStores} />
-      <div className="flex flex-wrap gap-4 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"style={{ padding: 'inherit' }}>
         {nearbyStores.map((store) => (
           <StoreCard 
             key={store.uniqueId}

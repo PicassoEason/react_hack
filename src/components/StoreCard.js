@@ -1,19 +1,28 @@
 import React from 'react';
-import { MapPin, Heart } from 'lucide-react';
+import { MapPin} from 'lucide-react';
 
-const StoreCard = ({ id, name, distance, isFavorite, onClick, onFavoriteToggle }) => (
-  <div className="flex-shrink-0 w-40 bg-white rounded-lg p-3 shadow relative">
-    <div onClick={onClick}>
-      <MapPin size={20} className="text-green-500 mb-2" />
-      <h3 className="font-bold text-sm mb-1">{name}</h3>
-      <p className="text-gray-500 text-xs">{distance}</p>
+const StoreCard = ({ id, name, distance, address, isFavorite, onClick, onFavoriteToggle }) => (
+  <div className="bg-white rounded-lg shadow-md p-4 border border-gray-200">
+    <div onClick={onClick} className="cursor-pointer">
+      <h3 className="text-lg font-semibold text-gray-800 mb-2">{name}</h3>
+      <div className="flex items-center text-gray-600 mb-2">
+        <MapPin size={16} className="mr-2" />
+        <span className="text-sm">{address}</span>
+        <span className="text-sm">距離: {distance}</span>
+      </div>
     </div>
-    <button 
-      className="absolute top-2 right-2 p-1 rounded-full bg-white shadow"
-      onClick={() => onFavoriteToggle(id)}
-    >
-      <Heart size={16} className={isFavorite ? "text-red-500 fill-red-500" : "text-gray-400"} />
-    </button>
+    <div className="mt-4">
+      <button
+        onClick={() => onFavoriteToggle(id)}
+        className={`w-full px-4 py-2 rounded-full text-white font-medium ${
+          isFavorite
+            ? "bg-red-500 hover:bg-red-600"
+            : "bg-green-500 hover:bg-green-600"
+        }`}
+      >
+        {isFavorite ? "取消收藏" : "加入收藏"}
+      </button>
+    </div>
   </div>
 );
 
