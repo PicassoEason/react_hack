@@ -36,17 +36,17 @@ const MyFavorites = () => {
       </div>
       <div className="flex-grow overflow-y-auto p-4">
         <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-2xl font-bold mb-4">我的收藏</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {favorites.map((store) => (
               <StoreCard
                 key={store.ORG_NAME}
                 name={store.ORG_NAME}
-                address={store.ADDRESS}  // 傳遞地址而不是距離
+                address={store.ADDRESS}
                 isFavorite={true}
                 onClick={() => handleStoreClick(store)}
                 onNavigate={() => startNavigation(store.LAT, store.LON)}
                 onFavoriteToggle={() => handleFavoriteToggle(store)}
+                showDistance={false} // 新增这行，明确指示不显示距离
               />
             ))}
           </div>

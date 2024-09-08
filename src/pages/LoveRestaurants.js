@@ -91,7 +91,7 @@ const LoveRestaurantsContent = React.memo(({ userLocation, error }) => {
   return (
     <div className="flex-grow overflow-y-auto p-4">
       <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-4">愛心餐廳列表</h2>
+        {/* <h2 className="text-2xl font-bold mb-4">愛心餐廳列表</h2> */}
         <div className="mb-6">
           <MapComponent userLocation={userLocation} nearbyStores={restaurants} />
         </div>
