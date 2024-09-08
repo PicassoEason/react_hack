@@ -10,12 +10,13 @@ const NearbyStores = ({ setSelectedStore }) => {
   const [userLocation, setUserLocation] = useState(null);
   const [nearbyStores, setNearbyStores] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [markedStores, setMarkedStores] = useState([]);
 
   // 移除重複數據並為每個項目添加唯一標識符
   const removeDuplicates = (data) => {
     const seen = new Set();
     return data.filter((item, index) => {
-      const key = `${item.ORG_NAME}-${item.ADDRESS}`;
+      const key = `${item.名稱}-${item.地址}`;
       if (seen.has(key)) {
         return false;
       }
@@ -55,40 +56,59 @@ const NearbyStores = ({ setSelectedStore }) => {
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   };
 
-  useEffect(() => {
-    // 獲取用戶位置
-    if (navigator.geolocation) {
+  const handleMarkToggle = (store) => {
+    let updatedMarkedStores;
+    if (markedStores.some(m => m.uniqueId === store.uniqueId)) {
+      updatedMarkedStores = markedStores.filter(m => m.uniqueId !== store.uniqueId);
+    } else {
+      updatedMarkedStores = [...markedStores, store];
+    }
+    setMarkedStores(updatedMarkedStores);
+    localStorage.setItem('markedStores', JSON.stringify(updatedMarkedStores));
+  };
+  const getUserLocation = () => {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error("瀏覽器不支持地理位置"));
+        return;
+      }
+
+      const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      };
+
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setUserLocation({
+          resolve({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
           });
         },
         (error) => {
-          console.error("Error getting user location:", error);
-          setError("Unable to get your location. Please enable location services.");
-        }
+          reject(new Error(`無法獲取位置: ${error.message}`));
+        },
+        options
       );
-    } else {
-      setError("Geolocation is not supported by your browser.");
-    }
-
-    // 從 localStorage 加載收藏
-    const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    setFavorites(storedFavorites);
-  }, []);
+    });
+  };
 
   useEffect(() => {
-    async function fetchStores() {
-      const url = "https://hack-bdend.vercel.app/food";
+    const fetchUserLocationAndStores = async () => {
       try {
+        const location = await getUserLocation();
+        setUserLocation(location);
+        
+        // 獲取商店數據
+        const url = "https://hack-bdend.vercel.app/api/friendlyShops";
         const response = await fetch(url, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
           },
         });
+
         if (!response.ok) {
           throw new Error(`Response status: ${response.status}`);
         }
@@ -96,18 +116,22 @@ const NearbyStores = ({ setSelectedStore }) => {
         const json = await response.json();
         const uniqueStores = removeDuplicates(json || []);
         setStores(uniqueStores);
-        setLoading(false);
       } catch (error) {
-        console.error('Fetching error:', error);
+        console.error('Error:', error);
         setError(error.message);
+      } finally {
         setLoading(false);
       }
-    }
+    };
 
-    if (userLocation) {
-      fetchStores();
-    }
-  }, [userLocation]);
+    fetchUserLocationAndStores();
+
+    // 從 localStorage 加載收藏和標記
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const storedMarkedStores = JSON.parse(localStorage.getItem('markedStores') || '[]');
+    setFavorites(storedFavorites);
+    setMarkedStores(storedMarkedStores);
+  }, []);
 
   useEffect(() => {
     if (userLocation && stores.length > 0) {
@@ -117,11 +141,11 @@ const NearbyStores = ({ setSelectedStore }) => {
           distance: calculateDistance(
             userLocation.latitude,
             userLocation.longitude,
-            store.LAT,
-            store.LON
+            store.Latitude,
+            store.Longitude
           )
         }))
-        .filter(store => store.distance <= 3)
+        .filter(store => store.distance <= 1)
         .sort((a, b) => a.distance - b.distance);
       
       setNearbyStores(filtered);
@@ -139,25 +163,38 @@ const NearbyStores = ({ setSelectedStore }) => {
 
   return (
     <div className="bg-white p-4 ">
-      <h2 className="text-lg font-bold mb-2">附近的友善店家</h2>
-      <MapComponent userLocation={userLocation} nearbyStores={nearbyStores} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"style={{ padding: 'inherit' }}>
+      {/* <h2 className="text-lg font-bold mb-2">附近的友善店家</h2> */}
+      <MapComponent 
+        userLocation={userLocation} 
+        nearbyStores={nearbyStores.map(store => ({
+          ORG_NAME: store.名稱,
+          LAT: store.Latitude,
+          LON: store.Longitude,
+          isMarked: markedStores.some(m => m.uniqueId === store.uniqueId),
+          ADDRESS: store.地址,
+          PHONE: store.電話,
+          無障礙友善說明: store.無障礙友善說明
+        }))}
+      />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" style={{ padding: 'inherit' }}>
         {nearbyStores.map((store) => (
           <StoreCard 
             key={store.uniqueId}
-            name={store.ORG_NAME}
+            name={store.名稱}
             distance={`${store.distance.toFixed(2)} km`}
             isFavorite={favorites.some(f => f.uniqueId === store.uniqueId)}
+            isMarked={markedStores.some(m => m.uniqueId === store.uniqueId)}
             onClick={() => setSelectedStore({
-              name: store.ORG_NAME,
-              address: store.ADDRESS,
-              personInCharge: store.PERSON_IN_CHARGE,
-              postDate: store.POST_DATE,
-              latitude: store.LAT,
-              longitude: store.LON
+              name: store.名稱,
+              address: store.地址,
+              phone: store.電話,
+              description: store.無障礙友善說明,
+              latitude: store.Latitude,
+              longitude: store.Longitude
             })}
-            onNavigate={() => startNavigation(store.LAT, store.LON)}
+            onNavigate={() => startNavigation(store.Latitude, store.Longitude)}
             onFavoriteToggle={() => handleFavoriteToggle(store)}
+            onMarkToggle={() => handleMarkToggle(store)}
           />
         ))}
       </div>

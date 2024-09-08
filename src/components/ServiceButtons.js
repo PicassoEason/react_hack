@@ -35,7 +35,7 @@ const ServiceButtons = () => {
           onClick={() => navigate('/disability-spaces')}
         >
           <Accessibility size={16} className="mr-2" />
-          身障機構空位
+          照護中心
         </button>
         <button 
           className="flex-none h-12 bg-yellow-700 text-white px-4 rounded-full flex items-center justify-center whitespace-nowrap"
