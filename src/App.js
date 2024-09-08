@@ -5,14 +5,9 @@ import ServiceButtons from './components/ServiceButtons';
 import NearbyStores from './components/Nearby/NearbyStores';
 import StoreModal from './components/StoreModal';
 import DisabilityInstitutionSpaces from './pages/DisabilityInstitutionSpaces';
-import LoveRestaurants from './pages/LoveRestaurants'; // 新增這行
-import SponsorForm from './pages/SponsorForm'; // 新增這行
+import LoveRestaurants from './pages/LoveRestaurants';
+import SponsorForm from './pages/SponsorForm';
 import MyFavorites from './pages/MyFavorites';
-// import MenuComponent from './components/menu';
-// import WantHome from './pages/want_home';
-// import Food from './pages/food';
-// import Assist from './pages/assist';
-// import Guide from './pages/info';
 
 const App = () => {
   const [selectedStore, setSelectedStore] = useState(null);
@@ -20,28 +15,26 @@ const App = () => {
   const closeModal = () => setSelectedStore(null);
 
   const HomePage = () => (
-    <>
-      <div className="bg-white shadow-md">
-      <ServiceButtons />
+    <div className="flex flex-col h-full">
+      <div className="bg-white shadow-md z-10 relative">
+        <ServiceButtons />
       </div>
-      
-      <NearbyStores setSelectedStore={setSelectedStore} />
-    </>
+      <div className="flex-1 overflow-auto">
+        <NearbyStores setSelectedStore={setSelectedStore} />
+      </div>
+    </div>
   );
 
   return (
     <Router>
       <div className="h-screen flex flex-col bg-gray-100">
-        {/* <Header /> */}
-        {/* <MenuComponent /> */}
-
         <main className="flex-1 overflow-hidden flex flex-col">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/disability-spaces" element={<DisabilityInstitutionSpaces />} />
-            <Route path="/love-restaurants" element={<LoveRestaurants />} /> {/* 新增這行 */}
-            <Route path="/sponsor-Form" element={<SponsorForm />} /> {/* 新增這行 */}
-            <Route path="/favorites" element={<MyFavorites />} /> {/* 新增這行 */}
+            <Route path="/love-restaurants" element={<LoveRestaurants />} />
+            <Route path="/sponsor-Form" element={<SponsorForm />} />
+            <Route path="/favorites" element={<MyFavorites />} />
           </Routes>
         </main>
 
