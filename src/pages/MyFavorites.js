@@ -6,7 +6,6 @@ import ServiceButtons from '../components/ServiceButtons';
 const MyFavorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [selectedStore, setSelectedStore] = useState(null);
-  
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
@@ -41,8 +40,9 @@ const MyFavorites = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {favorites.map((store) => (
               <StoreCard
-                key={store.ORG_NAME} // 使用組織名稱作為唯一 key
+                key={store.ORG_NAME}
                 name={store.ORG_NAME}
+                address={store.ADDRESS}  // 傳遞地址而不是距離
                 isFavorite={true}
                 onClick={() => handleStoreClick(store)}
                 onNavigate={() => startNavigation(store.LAT, store.LON)}
