@@ -139,7 +139,7 @@ const NearbyStores = ({ setSelectedStore }) => {
 
   return (
     <div className="bg-white p-4 ">
-      <h2 className="text-lg font-bold mb-2">附近的愛心店家</h2>
+      <h2 className="text-lg font-bold mb-2">附近的友善店家</h2>
       <MapComponent userLocation={userLocation} nearbyStores={nearbyStores} />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"style={{ padding: 'inherit' }}>
         {nearbyStores.map((store) => (
